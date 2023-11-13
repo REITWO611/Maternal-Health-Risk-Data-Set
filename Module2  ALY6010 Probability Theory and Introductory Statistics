@@ -1,0 +1,106 @@
+## Rachel Li (SHU-YING, LI) 
+## Module2 (2023.11.11) ALY6010 Probability Theory and Introductory Statistics
+
+# Read the dataset
+maternal_health_risk <- read.csv("/Users/rachel/Desktop/ALY 6010/Week2/Maternal Health Risk Data Set.csv")
+
+# Use the function names to produce the column names for your data set.
+names(maternal_health_risk)
+
+# Use the view function to view the data set in a separate tab.
+View(maternal_health_risk)
+
+# Use the glimpse function to view your data set in another configuration.
+# install.packages("dplyr")
+library("dplyr")
+glimpse(maternal_health_risk)
+
+# Load required libraries
+# install.packages("psych")
+library(psych)
+
+# Descriptive statistics for the entire sample
+describe(maternal_health_risk)
+
+# Descriptive statistics by group (by RiskLevel)
+grouped_stats <- maternal_health_risk %>%
+  group_by(RiskLevel) %>%
+  summarise(
+    Mean_Age = mean(Age),
+    SD_Age = sd(Age),
+    Min_Age = min(Age),
+    Max_Age = max(Age),
+    N = n()
+  )
+
+# Display the descriptive statistics by group
+print(grouped_stats)
+
+# boxplot by RiskLevel
+boxplot(maternal_health_risk$Age ~ maternal_health_risk$RiskLevel, 
+        col = "lightblue", main = "Boxplot by RiskLevel", 
+        xlab = "RiskLevel", ylab = "Age")
+
+# Descriptive statistics by group for SystolicBP
+grouped_stats_systolic <- maternal_health_risk %>%
+  group_by(RiskLevel) %>%
+  summarise(
+    Mean_SystolicBP = mean(SystolicBP),
+    SD_SystolicBP = sd(SystolicBP),
+    Min_SystolicBP = min(SystolicBP),
+    Max_SystolicBP = max(SystolicBP),
+    N = n()
+  )
+
+# Display the descriptive statistics by group for SystolicBP
+print(grouped_stats_systolic)
+
+# Create a Scatter Plot for SystolicBP by RiskLevel
+plot(maternal_health_risk$Age, 
+     maternal_health_risk$SystolicBP, 
+     col = as.factor(maternal_health_risk$RiskLevel), 
+     pch = 16, main = "Scatter Plot by RiskLevel", 
+     xlab = "Age", ylab = "SystolicBP")
+
+abline(h = c(120, 140), col = "black", lty = 2)
+
+legend("topright", legend = unique(maternal_health_risk$RiskLevel), 
+       col = c("red", "green", "black"), 
+       pch = 16, title = "RiskLevel")
+
+# Install and load required library
+# install.packages("ggplot2")
+library(ggplot2)
+
+# Create a jitter chart for BS by RiskLevel
+ggplot(maternal_health_risk, aes(
+  x = RiskLevel, y = BS, color = RiskLevel)) +
+  geom_jitter(width = 0.2, height = 0, alpha = 0.7) +
+  labs(title = "Jitter Chart for SystolicBP by RiskLevel", 
+       x = "RiskLevel", y = "BS") +
+  theme_minimal()
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
